@@ -1,0 +1,17 @@
+::ng-deep .province-detail .ant-modal-header {
+  background-color: #051439;
+  color: #ffffff;
+}
+::ng-deep .province-detail .ant-modal-header * {
+  color: #ffffff !important;
+  text-align: center;
+  font-weight: 600;
+  font-size: 22px;
+}
+
+::ng-deep .ant-table-tbody {
+  > tr.dblclick-row:hover > td {
+    background-color: #e6f7ff !important;
+    cursor: pointer;
+  }
+}

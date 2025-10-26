@@ -1,0 +1,1 @@
+dotnet run --project Ord.Tutorial --migrate-database

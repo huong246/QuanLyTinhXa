@@ -1,0 +1,154 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col col-md-6">
+        <h5 class="card-title">
+          Danh mục xã phường
+        </h5>
+      </div>
+      <div class="text-end col col-md-6">
+        <button nz-button nzType="primary" (click)="vcModifyModal.openModal(null)" style="background-color: #051439; color: #ffffff; font-weight: 400;">
+          <!--          <span nz-icon nzType="plus"></span>-->
+          Thêm mới
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Form -->
+  <div class="card-body border-bottom">
+    <form nz-form [formGroup]="searchForm" nzLayout="vertical">
+      <div nz-row [nzGutter]="16">
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>Tìm kiếm</nz-form-label>
+            <nz-form-control>
+              <nz-input-group [nzPrefix]="prefixIconSearch">
+                <input
+                  type="text"
+                  nz-input
+                  formControlName="filter"
+                  placeholder="Nhập tên xã/phường hoặc mã xã/phường, mã tỉnh"
+                />
+              </nz-input-group>
+              <ng-template #prefixIconSearch>
+                <span nz-icon nzType="search"></span>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="4">
+          <nz-form-item>
+            <nz-form-label style="opacity: 0;">Action</nz-form-label>
+            <nz-form-control>
+              <button
+                nz-button
+                nzType="default"
+                (click)="search()"
+                class="w-100"
+              >
+                Tìm kiếm  <span nz-icon nzType="search"></span>
+              </button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="4">
+          <nz-form-item>
+            <nz-form-label style="opacity: 0;">.</nz-form-label>
+            <nz-form-control>
+              <button
+                nz-button
+                nzType="default"
+                (click)="resetSearch()"
+                nzShape="circle"
+                nz-tooltip
+                nzTooltipTitle="Reset"
+              >
+                <span nz-icon nzType="redo" nzTheme="outline"></span>
+              </button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <span style="margin-left: 10px;">Note: Click vào từng dòng để xem chi tiết </span>
+  <!-- Table -->
+  <div class="card-body">
+    <nz-table
+      #basicTable
+      nzBordered
+      [nzData]="ward.items"
+      [nzFrontPagination]="false"
+      [nzTotal]="ward.totalCount"
+      [nzPageSize]="maxResultCount"
+      [nzPageIndex]="pageIndex"
+      [nzLoading]="loading"
+      (nzPageIndexChange)="onPageChange($event)"
+      (nzPageSizeChange)="onPageSizeChange($event)"
+      [nzShowSizeChanger]="true"
+      [nzPageSizeOptions]="[10, 25, 50, 100]"
+      [nzShowTotal]="totalTemplate"
+    >
+      <thead>
+      <tr>
+        <th nzWidth="50px" nzAlign="center">Stt</th>
+        <th nzWidth="80px" nzAlign="center">Mã xã/phường/thị trấn</th>
+        <th nzWidth="150px" nzAlign="center">Tên xã/phường/thị trấn</th>
+        <th nzWidth="100px" nzAlign="center">Mã tỉnh</th>
+        <th nzWidth="150px" nzAlign="center">Thao tác</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let row of basicTable.data; trackBy: trackById; let idx = index" (dblclick)="showWardDetail(row.id)" class="dblclick-row">
+        <td nzAlign="center" class="stt">{{ (pageIndex - 1) * maxResultCount + idx + 1 }}</td>
+        <td nzAlign="center">
+          <strong>{{ row.code }}</strong>
+        </td>
+        <td nzAlign="center">{{ row.name }}</td>
+        <td nzAlign="center">{{row.provinceCode}}</td>
+        <td nzAlign="center">
+          <button
+            nz-button
+            nzType="link"
+            nzSize="small"
+            (click)="showWardDetail(row.id)"
+            nz-tooltip
+            nzTooltipTitle="Xem chi tiết">
+            <span nz-icon nzType="eye" nzTheme="outline"></span>
+          </button>
+          <button
+            nz-button
+            nzType="link"
+            nzSize="small"
+            (click)="vcModifyModal.openModal(row.id)"
+            nz-tooltip
+            nzTooltipTitle="Chỉnh sửa">
+            <span nz-icon nzType="edit" nzTheme="outline"></span>
+          </button>
+
+          <button
+            nz-button
+            nzType="link"
+            nzDanger
+            nzSize="small"
+            (click)="onDelete(row)"
+            nz-tooltip
+            nzTooltipTitle="Xóa">
+            <span nz-icon nzType="delete" nzTheme="outline"></span>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+
+    <ng-template #totalTemplate let-total let-range="range">
+      Hiển thị {{ range[0] }}-{{ range[1] }} trong tổng số {{ total }} bản ghi
+    </ng-template>
+  </div>
+</div>
+<app-create-or-update-ward #vcModifyModal (onSaved)="onModalSaved()">
+</app-create-or-update-ward>

@@ -1,0 +1,71 @@
+<nz-modal
+  [nzVisible]="visible"
+  [nzTitle]="isEditMode ? 'Cập nhật xã/phường/thị trấn' : 'Thêm mới xã/phường/thị trấn'"
+  [nzClosable]="true"
+  [nzMaskClosable]="false"
+  [nzWidth]="700"
+  [nzOkText]="isEditMode ? 'Cập nhật' : 'Thêm mới'"
+  [nzOkLoading]="submitting"
+  [nzCancelText]="'Hủy'"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+>
+  <ng-container *nzModalContent>
+    <nz-spin [nzSpinning]="loading">
+      <form nz-form [formGroup]="form" nzLayout="vertical">
+        <div class="row">
+          <div class="col-md-6">
+            <nz-form-item>
+              <nz-form-label nzRequired>Mã xã/phường/thị trấn</nz-form-label>
+              <nz-form-control [nzErrorTip]="getErrorMessage('code')">
+                <input
+                  nz-input
+                  formControlName="code"
+                  placeholder="Nhập mã xã/phường"
+                  [disabled]="isEditMode"
+                  [ngStyle]="{'background-color': isEditMode ? '#f5f5f5' : 'white', 'cursor': isEditMode ? 'not-allowed' : 'auto'}"
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="col-md-6">
+            <nz-form-item>
+              <nz-form-label nzRequired>Tên xã</nz-form-label>
+              <nz-form-control [nzErrorTip]="getErrorMessage('name')">
+                <input
+                  nz-input
+                  formControlName="name"
+                  placeholder="Nhập tên xã/phường/thị trấn"
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-md-6">
+            <nz-form-item>
+              <nz-form-label nzRequired>Tỉnh/Thành phố</nz-form-label>
+              <nz-form-control [nzErrorTip]="getErrorMessage('provinceCode')">
+                <nz-select
+                  formControlName="provinceCode"
+                  nzPlaceHolder="Chọn tỉnh..."
+                  [nzShowSearch]="true"
+                  nzAllowClear
+                  [nzLoading]="isLoadingProvinces"
+                >
+                  <nz-option
+                    *ngFor="let province of listProvinces"
+                    [nzLabel]="province.name"
+                    [nzValue]="province.code"
+                  >
+                    <span>{{ province.code }} - {{ province.name }}</span>
+                  </nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+      </form>
+    </nz-spin>
+  </ng-container>
+</nz-modal>

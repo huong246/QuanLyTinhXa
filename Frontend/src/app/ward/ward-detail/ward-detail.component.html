@@ -1,0 +1,25 @@
+<nz-spin [nzSpinning]="isLoading">
+
+  <div *ngIf="ward; else noData">
+    <p>
+      <strong>Mã xã/phường:</strong> {{ ward.code }}
+    </p>
+    <p>
+      <strong>Tên xã/phường:</strong> {{ ward.name }}
+    </p>
+    <p>
+      <strong>Mã tỉnh:</strong> {{ ward.provinceCode }}
+    </p>
+  </div>
+
+  <ng-template #noData>
+    <nz-alert
+      *ngIf="!isLoading"
+      nzType="error"
+      nzMessage="Lỗi"
+      nzDescription="Không thể tải dữ liệu chi tiết cho xã/phường này."
+    >
+    </nz-alert>
+  </ng-template>
+
+</nz-spin>

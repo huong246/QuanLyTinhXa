@@ -1,0 +1,97 @@
+<nz-modal
+  [nzVisible]="visible"
+  [nzTitle]="isEditMode ? 'Cập nhật sách' : 'Thêm mới sách'"
+  [nzClosable]="true"
+  [nzMaskClosable]="false"
+  [nzWidth]="700"
+  [nzOkText]="isEditMode ? 'Cập nhật' : 'Thêm mới'"
+  [nzOkLoading]="submitting"
+  [nzCancelText]="'Hủy'"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+>
+  <ng-container *nzModalContent>
+    <nz-spin [nzSpinning]="loading">
+      <form nz-form [formGroup]="form" nzLayout="vertical">
+        <div class="row">
+          <!-- Mã sách -->
+          <div class="col-md-6">
+            <nz-form-item>
+              <nz-form-label nzRequired>Mã sách</nz-form-label>
+              <nz-form-control [nzErrorTip]="getErrorMessage('code')">
+                <input
+                  nz-input
+                  formControlName="code"
+                  placeholder="Nhập mã sách"
+                  [disabled]="isEditMode"
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <!-- Tên sách -->
+          <div class="col-md-6">
+            <nz-form-item>
+              <nz-form-label nzRequired>Tên sách</nz-form-label>
+              <nz-form-control [nzErrorTip]="getErrorMessage('name')">
+                <input
+                  nz-input
+                  formControlName="name"
+                  placeholder="Nhập tên sách"
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Thể loại -->
+          <div class="col-md-6">
+            <nz-form-item>
+              <nz-form-label nzRequired>Thể loại</nz-form-label>
+              <nz-form-control [nzErrorTip]="getErrorMessage('type')">
+               <app-book-type-select formControlName="type"></app-book-type-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <!-- Ngày xuất bản -->
+          <div class="col-md-6">
+            <nz-form-item>
+              <nz-form-label nzRequired>Ngày xuất bản</nz-form-label>
+              <nz-form-control [nzErrorTip]="getErrorMessage('publishDate')">
+                <nz-date-picker
+                  formControlName="publishDate"
+                  nzPlaceHolder="Chọn ngày"
+                  nzFormat="dd/MM/yyyy"
+                  class="w-100"
+                ></nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Giá bán -->
+          <div class="col-md-12">
+            <nz-form-item>
+              <nz-form-label nzRequired>Giá bán (VNĐ)</nz-form-label>
+              <nz-form-control [nzErrorTip]="getErrorMessage('price')">
+                <nz-input-number
+                  formControlName="price"
+                  [nzMin]="0"
+                  [nzMax]="999999999"
+                  [nzStep]="1000"
+                  [nzFormatter]="formatterVND"
+                  [nzParser]="parserVND"
+                  nzPlaceHolder="Nhập giá bán"
+                  class="w-100"
+                ></nz-input-number>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+    </nz-spin>
+  </ng-container>
+</nz-modal>

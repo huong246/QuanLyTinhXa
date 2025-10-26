@@ -1,0 +1,21 @@
+{
+  "culture": "vi",
+  "texts": {
+    "AppName": "Tutorial",
+    "Welcome_Title": "Chào mừng bạn",
+    "Welcome_Text": "Đây là một mẫu khởi động ứng dụng lớp đơn, tối giản cho ABP Framework.",
+    "Menu:Home": "Trang chủ",
+    
+    "Menu:BookStore": "Cửa hàng sách",
+    "Menu:Books": "Danh mục sách",
+    "Menu:Address": "Danh mục địa giới",
+    "Menu:Provinces": "Danh mục tỉnh",
+    
+    "BookNameRequired": "Tên sách không để trống",
+    "BookNameLength": "Tên sách phải từ {0} đến {1} ký tự",
+    "BookPriceRange": "Giá sách phải từ {0} đến {1} VND",
+    "BookCodeRequired": "Mã sách không để trống",
+    "BookCodeLength": "Mã sách phải từ {0} đến {1} ký tự",
+    "BookCodeExists": "Mã sách đã tồn tại"
+  }
+}

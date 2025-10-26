@@ -1,0 +1,142 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col col-md-6">
+        <h5 class="card-title">
+          Danh mục sách
+        </h5>
+      </div>
+      <div class="text-end col col-md-6">
+        <button nz-button nzType="primary" (click)="vcModifyModal.openModal(null)">
+<!--          <span nz-icon nzType="plus"></span>-->
+          Thêm mới
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Form -->
+  <div class="card-body border-bottom">
+    <form nz-form [formGroup]="searchForm" nzLayout="vertical">
+      <div nz-row [nzGutter]="16">
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>Tìm kiếm</nz-form-label>
+            <nz-form-control>
+              <nz-input-group [nzPrefix]="prefixIconSearch">
+                <input
+                  type="text"
+                  nz-input
+                  formControlName="filter"
+                  placeholder="Nhập tên sách hoặc mã sách..."
+                />
+              </nz-input-group>
+              <ng-template #prefixIconSearch>
+                <span nz-icon nzType="search"></span>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="5">
+          <nz-form-item>
+            <nz-form-label>Thể loại</nz-form-label>
+            <nz-form-control>
+              <app-book-type-select formControlName="type" placeholder="-Tất cả-"></app-book-type-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="4">
+          <nz-form-item>
+            <nz-form-label style="opacity: 0;">Action</nz-form-label>
+            <nz-form-control>
+              <button
+                nz-button
+                nzType="default"
+                (click)="resetSearch()"
+                class="w-100"
+              >
+                <span nz-icon nzType="search"></span>
+                Tìm kiếm
+              </button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Table -->
+  <div class="card-body">
+    <nz-table
+      #basicTable
+      nzBordered
+      [nzData]="book.items"
+      [nzFrontPagination]="false"
+      [nzTotal]="book.totalCount"
+      [nzPageSize]="maxResultCount"
+      [nzPageIndex]="pageIndex"
+      [nzLoading]="loading"
+      (nzPageIndexChange)="onPageChange($event)"
+      (nzPageSizeChange)="onPageSizeChange($event)"
+      [nzShowSizeChanger]="true"
+      [nzPageSizeOptions]="[10, 25, 50, 100]"
+      [nzShowTotal]="totalTemplate"
+    >
+      <thead>
+      <tr>
+        <th nzWidth="80px" nzAlign="center">Mã</th>
+        <th>Tên</th>
+        <th nzWidth="150px" nzAlign="center">Thể loại</th>
+        <th nzWidth="150px" nzAlign="center">Ngày xuất bản</th>
+        <th nzWidth="150px" nzAlign="right">Giá bán</th>
+        <th nzWidth="150px" nzAlign="center">Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let row of basicTable.data; trackBy: trackById">
+        <td nzAlign="center">
+          <strong>{{ row.code }}</strong>
+        </td>
+        <td>{{ row.name }}</td>
+        <td nzAlign="center">
+          <nz-tag [nzColor]="row.type | bookTypeColor">
+            {{ row.type | bookTypeName }}
+          </nz-tag>
+        </td>
+        <td nzAlign="center">{{ row.publishDate | date:'dd/MM/yyyy' }}</td>
+        <td nzAlign="right">
+          {{ row.price | currency:'VND':'symbol':'1.0-0':'vi-VN' }}
+        </td>
+        <td nzAlign="center">
+          <button
+            nz-button
+            nzType="link"
+            nzSize="small"
+            (click)="vcModifyModal.openModal(row.id)"
+            nz-tooltip
+            nzTooltipTitle="Chỉnh sửa"
+          >
+            <span nz-icon nzType="edit" nzTheme="outline"></span>
+          </button>
+          <button
+            nz-button
+            nzType="link"
+            nzDanger
+            nzSize="small"
+            (click)="onDelete(row)"
+            nz-tooltip
+            nzTooltipTitle="Xóa"
+          >
+            <span nz-icon nzType="delete" nzTheme="outline"></span>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+
+    <ng-template #totalTemplate let-total let-range="range">
+      Hiển thị {{ range[0] }}-{{ range[1] }} trong tổng số {{ total }} bản ghi
+    </ng-template>
+  </div>
+</div>
+<app-create-update-book-modal #vcModifyModal (onSaved)="onModalSaved()"></app-create-update-book-modal>

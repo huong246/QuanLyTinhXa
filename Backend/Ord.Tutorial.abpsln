@@ -1,0 +1,9 @@
+{
+  "id": "035de9d0-8920-4268-91e5-caad91af6e9a",
+  "template": "empty",
+  "modules": {
+    "Ord.Tutorial": {
+      "path": "Ord.Tutorial.abpmdl"
+    }
+  }
+}

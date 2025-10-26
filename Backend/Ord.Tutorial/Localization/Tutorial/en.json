@@ -1,0 +1,15 @@
+{
+  "culture": "en",
+  "texts": {
+    "AppName": "Tutorial",
+    "Welcome_Title": "Welcome",
+    "Welcome_Text": "This is a minimalist, single layer application startup template for the ABP Framework.",
+    "Menu:Home": "Home",
+    "BookNameRequired": "Book name is required",
+    "BookNameLength": "Book name must be between {0} and {1} characters",
+    "BookPriceRange": "Price must be between {0} and {1} VND",
+    "BookCodeRequired": "Book code is required",
+    "BookCodeLength": "Book code must be between {0} and {1} characters",
+    "BookCodeExists": "Book code already exists"
+  }
+}
